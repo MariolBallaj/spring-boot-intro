@@ -36,7 +36,7 @@ public class EmployeeController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<EmployeeDTO> storeEmployee(@RequestBody EmployeeDTO employeeDTO) {
         return ResponseEntity.status(201).body(employeeService.storeEmployee(employeeDTO));
     }
