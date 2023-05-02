@@ -4,6 +4,7 @@ import com.lhind.internship.springboot.model.dto.EmployeeDTO;
 import com.lhind.internship.springboot.service.EmployeeService;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
+    @PreAuthorize(value = "hasAnyRole('ROLE_MANAGER')")
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<EmployeeDTO>> getEmployees() {
         return ResponseEntity.ok(employeeService.loadAll());
