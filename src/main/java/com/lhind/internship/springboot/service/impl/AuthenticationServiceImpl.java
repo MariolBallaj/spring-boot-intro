@@ -24,14 +24,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
+    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) throws AuthenticationException {
         final AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
-            authenticationResponse.setToken(tokenService.generateToken(userDetailsService.loadUserByUsername(authenticationRequest.getUsername())));
-        } catch (AuthenticationException e) {
-            //TODO: When we learn logging and exception handling
-        }
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+        authenticationResponse.setToken(tokenService.generateToken(userDetailsService.loadUserByUsername(authenticationRequest.getUsername())));
         return authenticationResponse;
     }
 

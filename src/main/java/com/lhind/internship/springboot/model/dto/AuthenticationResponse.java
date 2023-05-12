@@ -1,6 +1,6 @@
 package com.lhind.internship.springboot.model.dto;
 
-public class AuthenticationResponse {
+public class AuthenticationResponse extends BaseResponse {
 
     private String token;
 

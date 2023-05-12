@@ -18,6 +18,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfiguration {
 
+    private static final String[] AUTH_WHITELIST = {
+            "/authenticate",
+            "/swagger-ui/**",
+            "/swagger-resources/**",
+            "/api-docs/**",
+            "/webjars/**"
+    };
     private final TokenFilter tokenFilter;
 
     public SecurityConfiguration(TokenFilter tokenFilter) {
@@ -28,7 +35,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/authenticate").permitAll()
+                .requestMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

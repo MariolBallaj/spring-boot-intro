@@ -1,11 +1,13 @@
 package com.lhind.internship.springboot.service.impl;
 
+import com.lhind.internship.springboot.exception.EmployeeNotFoundException;
 import com.lhind.internship.springboot.model.dto.EmployeeDTO;
-import com.lhind.internship.springboot.model.enums.EmploymentStatus;
-import com.lhind.internship.springboot.service.EmployeeService;
 import com.lhind.internship.springboot.model.entity.Employee;
+import com.lhind.internship.springboot.model.enums.EmploymentStatus;
 import com.lhind.internship.springboot.repository.EmployeeRepository;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import com.lhind.internship.springboot.service.EmployeeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeServiceImpl.class);
     private final EmployeeRepository employeeRepository;
 
     public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
@@ -26,8 +29,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDTO loadById(Long id) throws ChangeSetPersister.NotFoundException {
-        return employeeRepository.findById(id).map(EmployeeDTO::new).orElseThrow(ChangeSetPersister.NotFoundException::new);
+    public EmployeeDTO loadById(Long id) throws EmployeeNotFoundException {
+        return employeeRepository.findById(id).map(EmployeeDTO::new).orElseThrow(EmployeeNotFoundException::new);
     }
 
     @Override
